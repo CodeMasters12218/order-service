@@ -1,21 +1,27 @@
 ﻿package com.example.order.application;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.example.order.domain.model.Order;
 import com.example.order.domain.model.OrderItem;
+import com.example.order.domain.model.OrderStatus;
 import com.example.order.domain.ports.OrderRepositoryPort;
 import com.example.order.domain.ports.OrderServicePort;
+import com.example.order.infrastructure.repository.OrderEntity;
+import com.example.order.infrastructure.repository.OrderJpaRepository;
 
 @Service
 public class OrderServiceManager implements OrderServicePort {
 
     private final OrderRepositoryPort repository;
+    private final OrderJpaRepository jpaRepository;
 
-    public OrderServiceManager(OrderRepositoryPort repository) {
+    public OrderServiceManager(OrderRepositoryPort repository, OrderJpaRepository jpaRepository) {
         this.repository = repository;
+        this.jpaRepository = jpaRepository;
     }
 
     @Override
@@ -77,6 +83,26 @@ public class OrderServiceManager implements OrderServicePort {
         Order order = this.repository.findById(id)
             .orElseThrow(() -> new RuntimeException("Orden no encontrada con id: " + id));
         return order.getItems();
+    }
+
+    @Override
+    public List<OrderEntity> findByStatus(OrderStatus status) {
+        return jpaRepository.findByStatus(status);
+    }
+
+    @Override
+    public List<OrderEntity> findByCustomerId(Integer customerId) {
+        return jpaRepository.findByCustomerId(customerId);
+    }
+
+    @Override
+    public List<OrderEntity> buscarPedidosRecientes(LocalDateTime date) {
+        return jpaRepository.buscarPedidosRecientes(date);
+    }
+
+    @Override
+    public OrderEntity buscarPorNumero(String orderNumber) {
+        return jpaRepository.buscarPorNumero(orderNumber);
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿package com.example.order.infrastructure.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.order.domain.model.Order;
 import com.example.order.domain.model.OrderItem;
+import com.example.order.domain.model.OrderStatus;
 import com.example.order.domain.ports.OrderServicePort;
+import com.example.order.infrastructure.repository.OrderEntity;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -56,5 +59,26 @@ public class OrderController {
     @GetMapping("/{id}/items")
     public List<OrderItem> getItems(@PathVariable Integer id) {
         return service.getItems(id);
+    }
+
+    @GetMapping("/estado/{status}")
+    public List<OrderEntity> getByStatus(@PathVariable OrderStatus status) {
+        return service.findByStatus(status);
+    }
+
+    @GetMapping("/cliente/{customerId}")
+    public List<OrderEntity> getByCustomer(@PathVariable Integer customerId) {
+        return service.findByCustomerId(customerId);
+    }
+
+    @GetMapping("/recientes/{fecha}")
+    public List<OrderEntity> getRecentOrders(@PathVariable String fecha) {
+        LocalDateTime date = LocalDateTime.parse(fecha);
+        return service.buscarPedidosRecientes(date);
+    }
+
+    @GetMapping("/numero/{orderNumber}")
+    public OrderEntity getByOrderNumber(@PathVariable String orderNumber) {
+        return service.buscarPorNumero(orderNumber);
     }
 }
