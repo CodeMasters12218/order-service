@@ -96,8 +96,8 @@ public class OrderServiceManager implements OrderServicePort {
     }
 
     @Override
-    public List<OrderEntity> buscarPedidosRecientes(LocalDateTime date) {
-        return jpaRepository.buscarPedidosRecientes(date);
+    public List<OrderEntity> findByOrderDateAfter(LocalDateTime date) {
+        return jpaRepository.findByOrderDateAfter(date);
     }
 
     @Override

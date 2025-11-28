@@ -74,7 +74,7 @@ public class OrderController {
     @GetMapping("/recientes/{fecha}")
     public List<OrderEntity> getRecentOrders(@PathVariable String fecha) {
         LocalDateTime date = LocalDateTime.parse(fecha);
-        return service.buscarPedidosRecientes(date);
+        return service.findByOrderDateAfter(date);
     }
 
     @GetMapping("/numero/{orderNumber}")

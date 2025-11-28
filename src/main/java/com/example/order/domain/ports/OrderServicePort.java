@@ -18,6 +18,6 @@ public interface OrderServicePort {
     List<OrderItem> getItems(Integer id);
     List<OrderEntity> findByStatus(OrderStatus status);
     List<OrderEntity> findByCustomerId(Integer customerId);
-    List<OrderEntity> buscarPedidosRecientes(LocalDateTime date);
+    List<OrderEntity> findByOrderDateAfter(LocalDateTime date);
     OrderEntity buscarPorNumero(String orderNumber);
 }

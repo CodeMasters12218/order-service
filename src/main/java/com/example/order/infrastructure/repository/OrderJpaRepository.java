@@ -14,7 +14,7 @@ public interface OrderJpaRepository extends JpaRepository<OrderEntity, Integer> 
 
     List<OrderEntity> findByCustomerId(Integer customerId);
     
-    List<OrderEntity> buscarPedidosRecientes(@Param("fecha") LocalDateTime fecha);
+    List<OrderEntity> findByOrderDateAfter(LocalDateTime fecha);
 
     @Query("SELECT o FROM OrderEntity o WHERE o.orderNumber = :orderNumber")
     OrderEntity buscarPorNumero(@Param("orderNumber") String orderNumber);
