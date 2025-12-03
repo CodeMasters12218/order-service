@@ -1,12 +1,24 @@
 ﻿package com.example.order.domain.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Represents an item included in an order.")
 public class OrderItem {
+    @Schema(description = "Unique identifier of the order item", example = "1")
     private Integer id;
+
+    @Schema(description = "Identifier of the product", example = "200")
     private Integer productId;
+
+    @Schema(description = "Name of the product", example = "Wireless Mouse")
     private String productName;
+
+    @Schema(description = "Price paid for the product", example = "29.99")
     private Double pricePaid;
+
+    @Schema(description = "Quantity of the product ordered", example = "2")
     private Integer quantity;
-    
+
     public OrderItem() {
 
     }

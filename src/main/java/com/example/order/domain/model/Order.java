@@ -2,16 +2,28 @@
 
 import java.time.LocalDateTime;
 import java.util.List;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "Represents a customer order with items and status.")
 public class Order {
+    @Schema(description = "Unique identifier of the order", example = "101")
     private Integer id;
+
+    @Schema(description = "Order number assigned to the purchase", example = "ORD-2025-001")
     private String orderNumber;
+
+    @Schema(description = "Identifier of the customer who placed the order", example = "55")
     private Integer customerId;
+
+    @Schema(description = "Date and time when the order was created", example = "2025-12-03T15:30:00")
     private LocalDateTime orderDate;
+
+    @Schema(description = "Current status of the order", example = "PROCESADO")
     private OrderStatus status;
+
+    @Schema(description = "List of items included in the order")
     private List<OrderItem> items;
     
-
     public Order() {}
     
     public Order(Integer id, String orderNumber, Integer customerId, LocalDateTime orderDate, OrderStatus status,
@@ -71,6 +83,4 @@ public class Order {
     public void setItems(List<OrderItem> items) {
         this.items = items;
     }
-
-    
 }
