@@ -1,4 +1,4 @@
-﻿package com.example.order.domain.model;
+package com.example.order.domain.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
