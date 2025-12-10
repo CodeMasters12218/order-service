@@ -1,4 +1,4 @@
-package com.example.order_service;
+package com.example.order;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
