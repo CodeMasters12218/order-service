@@ -1,4 +1,4 @@
-﻿package com.example.order;
+package com.example.order;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
