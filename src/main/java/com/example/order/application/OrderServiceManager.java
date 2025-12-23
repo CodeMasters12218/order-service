@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.common.dto.ProductDTO;
 import com.example.order.domain.model.Order;
 import com.example.order.domain.model.OrderItem;
 import com.example.order.domain.model.OrderStatus;
 import com.example.order.domain.ports.OrderRepositoryPort;
 import com.example.order.domain.ports.OrderServicePort;
+import com.example.order.infrastructure.clients.ProductsClient;
 import com.example.order.infrastructure.repository.OrderEntity;
 import com.example.order.infrastructure.repository.OrderJpaRepository;
 
@@ -18,12 +20,13 @@ public class OrderServiceManager implements OrderServicePort {
 
     private final OrderRepositoryPort repository;
     private final OrderJpaRepository jpaRepository;
+    private final ProductsClient productsClient;
 
-    public OrderServiceManager(OrderRepositoryPort repository, OrderJpaRepository jpaRepository) {
+    public OrderServiceManager(OrderRepositoryPort repository, OrderJpaRepository jpaRepository, ProductsClient productsClient) {
         this.repository = repository;
         this.jpaRepository = jpaRepository;
+        this.productsClient = productsClient;
     }
-
     @Override
     public List<Order> findAll() {
         return repository.findAll();
@@ -37,6 +40,10 @@ public class OrderServiceManager implements OrderServicePort {
 
     @Override
     public Order save(Order order) {
+        ProductDTO product = productsClient.obtenerProductoPorId(order.getId());
+        order.setOrderDate(LocalDateTime.now());
+        order.setStatus(OrderStatus.PROCESADO);
+        
         return repository.save(order);
     }
 
