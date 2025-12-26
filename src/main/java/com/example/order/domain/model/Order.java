@@ -23,17 +23,21 @@ public class Order {
 
     @Schema(description = "List of items included in the order")
     private List<OrderItem> items;
+
+    @Schema(description = "Total amount for the order", example = "199.99")
+    private Double totalAmount;
     
     public Order() {}
     
     public Order(Integer id, String orderNumber, Integer customerId, LocalDateTime orderDate, OrderStatus status,
-            List<OrderItem> items) {
+            List<OrderItem> items, Double totalAmount) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.customerId = customerId;
         this.orderDate = orderDate;
         this.status = status;
         this.items = items;
+        this.totalAmount = totalAmount;
     }
 
     public Integer getId() {
@@ -83,4 +87,13 @@ public class Order {
     public void setItems(List<OrderItem> items) {
         this.items = items;
     }
+
+    public Double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
 }

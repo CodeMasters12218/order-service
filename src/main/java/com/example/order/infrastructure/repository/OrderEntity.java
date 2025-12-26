@@ -29,6 +29,8 @@ public class OrderEntity {
     private Integer customerId;
     private LocalDateTime orderDate;
 
+    private Double totalAmount;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
@@ -39,13 +41,14 @@ public class OrderEntity {
     public OrderEntity() {}
 
     public OrderEntity(Integer id, String orderNumber, Integer customerId, LocalDateTime orderDate, OrderStatus status,
-            List<OrderItemEntity> items) {
+            List<OrderItemEntity> items, Double totalAmount) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.customerId = customerId;
         this.orderDate = orderDate;
         this.status = status;
         this.items = items;
+        this.totalAmount = totalAmount;
     }
 
     public Integer getId() {
@@ -94,5 +97,13 @@ public class OrderEntity {
 
     public void setItems(List<OrderItemEntity> items) {
         this.items = items;
+    }
+
+    public Double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 }

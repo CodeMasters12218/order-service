@@ -18,7 +18,8 @@ public class OrderMapper {
             entity.getCustomerId(),
             entity.getOrderDate(),
             entity.getStatus(),
-            null  // items will be set separately if needed
+            null,
+            entity.getTotalAmount()
         );
 
         return order;
@@ -35,7 +36,8 @@ public class OrderMapper {
             domain.getCustomerId(),
             domain.getOrderDate(),
             domain.getStatus(),
-            null  // items will be set separately if needed
+            null, 
+            domain.getTotalAmount()
         );
 
         return entity;

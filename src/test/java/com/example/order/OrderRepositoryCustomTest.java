@@ -1,4 +1,4 @@
-package com.example.order;
+﻿package com.example.order;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,8 +23,8 @@ class OrderRepositoryCustomTest {
 
     @Test
     void testFindByStatus() {
-        OrderEntity order1 = new OrderEntity(null, "ORD-001", 123, LocalDateTime.now(), OrderStatus.PROCESADO, List.of());
-        OrderEntity order2 = new OrderEntity(null, "ORD-002", 456, LocalDateTime.now(), OrderStatus.ENVIADO, List.of());
+        OrderEntity order1 = new OrderEntity(null, "ORD-001", 123, LocalDateTime.now(), OrderStatus.PROCESADO, List.of(), 100.0);
+        OrderEntity order2 = new OrderEntity(null, "ORD-002", 456, LocalDateTime.now(), OrderStatus.ENVIADO, List.of(), 200.0);
         orderRepository.save(order1);
         orderRepository.save(order2);
 
@@ -36,7 +36,7 @@ class OrderRepositoryCustomTest {
 
     @Test
     void testBuscarPorNumero() {
-        OrderEntity order = new OrderEntity(null, "ORD-999", 789, LocalDateTime.now(), OrderStatus.PROCESADO, List.of());
+        OrderEntity order = new OrderEntity(null, "ORD-999", 789, LocalDateTime.now(), OrderStatus.PROCESADO, List.of(), 150.0);
         orderRepository.save(order);
 
         OrderEntity found = orderRepository.buscarPorNumero("ORD-999");

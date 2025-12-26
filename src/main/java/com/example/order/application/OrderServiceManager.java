@@ -12,6 +12,8 @@ import com.example.order.domain.model.OrderStatus;
 import com.example.order.domain.ports.OrderRepositoryPort;
 import com.example.order.domain.ports.OrderServicePort;
 import com.example.order.infrastructure.clients.ProductsClient;
+import com.example.order.infrastructure.messaging.events.OrderCreatedEvent;
+import com.example.order.infrastructure.messaging.publisher.OrderEventPublisher;
 import com.example.order.infrastructure.repository.OrderEntity;
 import com.example.order.infrastructure.repository.OrderJpaRepository;
 
@@ -21,11 +23,13 @@ public class OrderServiceManager implements OrderServicePort {
     private final OrderRepositoryPort repository;
     private final OrderJpaRepository jpaRepository;
     private final ProductsClient productsClient;
+    private final OrderEventPublisher eventPublisher;
 
-    public OrderServiceManager(OrderRepositoryPort repository, OrderJpaRepository jpaRepository, ProductsClient productsClient) {
+    public OrderServiceManager(OrderRepositoryPort repository, OrderJpaRepository jpaRepository, ProductsClient productsClient, OrderEventPublisher eventPublisher) {
         this.repository = repository;
         this.jpaRepository = jpaRepository;
         this.productsClient = productsClient;
+        this.eventPublisher = eventPublisher;
     }
     @Override
     public List<Order> findAll() {
@@ -40,11 +44,30 @@ public class OrderServiceManager implements OrderServicePort {
 
     @Override
     public Order save(Order order) {
+
         ProductDTO product = productsClient.obtenerProductoPorId(order.getId());
         order.setOrderDate(LocalDateTime.now());
         order.setStatus(OrderStatus.PROCESADO);
-        
-        return repository.save(order);
+
+        Order savedOrder = repository.save(order);
+
+        OrderCreatedEvent event = new OrderCreatedEvent(
+            savedOrder.getId().toString(),
+            savedOrder.getCustomerId().toString(),
+            savedOrder.getItems().stream()
+                    .map(item -> new com.example.order.infrastructure.messaging.events.OrderItem(
+                            item.getProductId().toString(),
+                            item.getQuantity(),
+                            item.getPricePaid()
+                    ))
+                    .toList(),
+            savedOrder.getTotalAmount(),
+            savedOrder.getOrderDate()
+        );
+
+        eventPublisher.publishOrderCreatedEvent(event);
+
+        return savedOrder;
     }
 
     @Override
